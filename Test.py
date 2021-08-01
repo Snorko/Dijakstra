@@ -67,29 +67,33 @@ print(satlitiesDis)
 
 closeSatlites = {}
 for index, satName in enumerate(allSatlites):
-    if satlitiesDis[index][1][0] < 200:
+    if satlitiesDis[index][1][0] < 200 and satlitiesDis[index][1][0] > 1:
         #print (str(satlitiesDis[index][0][1]) + " Distance "+ str(satlitiesDis[index][1][0]))
         #print(satName)
-        closeSatlites[satName[0]]= [satlitiesDis[index][1][0]]
+        closeSatlites[(satName[0],satName[1])]= [satlitiesDis[index][1][0]]
 
 print("TEST")
 print(closeSatlites)
 
 
-#distances = {}
-#for sats, values in allSatlites.items():
-#    dis = sqrt((avgSatsLocations[sourceSat][0] - values[1][0]) ** 2 + (avgSatsLocations[sourceSat][1] - values[1][1]) ** 2)
-#    distances[sats] = round(dis, 2)
-#print("EDI 4")
-#print(distances)
-
-
 def distanceW(value):
-    return 1 - (value / 200)
+    return (1 - (value/ 200))
 
-distance = {}
-for key, value in enumerate(closeSatlites):
-    distances[key] = distance(value)
+distances = {}
+for key, value in (closeSatlites.items()):
+    #print(closeSatlites[value][0])
+    print(key)
+    val=round((1-value[0]/200),4)
+    distances[key] = val
+
 
 print("EDI 5")
 print(distances)
+
+dataFile = open('testData.txt', 'w+')
+for key, value in distances.items():
+    sat1 = key[0]
+    sat2 = key[1]
+    data=value
+    dataFile.write(sat1 + ' ' + sat2 + ' ' + str(data) + '\n')
+dataFile.close()
